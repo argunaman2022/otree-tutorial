@@ -1,0 +1,41 @@
+{#
+HTML COMMENT
+1.This is a page that a player sees.
+2.To access variables use {{model.field}} e.g. {{player.name}}
+    2.a the following variables are available for templates: player,group,subsession,participant,session,C
+    2.b any other variables must be passed to the page in the page class with vars_for_template() function.
+3. If statements work like this : {{ for item in some_list}}
+                                    {{item}}
+                                  {{ endfor }}
+4. to access dictionaries do {{my_dict.key}} instead of my_dict['key']
+6. Note that you cannot do math, any math should be done in a function and be sent via vars_for_template()
+7. you can create your own template save it as "template.html" then call it in the page {{template}}
+    7.a this html file can contain JS, CSS etc.
+    7.b JS and CSS can be used anywhere within the template (the html file) as usual. it's good practice to keep scripts and CSS code in a seperate folder
+    7.c to pass data to JS code in template, create a function on the page for instance:
+        @staticmethod
+        def js_var(player):
+            return dict (payoff=player.payoff, a=1)
+        then in the template (the html file) you can refer to this as <script>let x= js_vars.payoff</script>
+    7.d otree comes with Bootstrap. to use bootstrap for custom style etc. use class= attribute to the html element in the template. e.g:
+        <div class="altert alert-success">Great Job!</div>
+    7.e for charts use HighCharts see: https://otree.readthedocs.io/en/latest/templates.html#charts
+8. To troubleshoot a page do "view source" on page to see the raw HTML with JS and CSS.
+9. for customizing Otree using CSS, see selectors at: https://otree.readthedocs.io/en/latest/templates.html#customizing-the-theme
+#}
+
+{{ block title }}
+    Page title - mypage
+{# comment #}
+{#
+Multiline comment
+#}
+{{ endblock }}
+{{ block content }}
+
+
+
+    {{formfields}}
+    {{ next_button }}
+
+{{ endblock }}

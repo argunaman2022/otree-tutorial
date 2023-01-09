@@ -1,0 +1,49 @@
+{{ block title }}
+    Page title - slider
+{# comment #}
+
+{{ endblock }}
+{{ block content }}
+
+{#
+1. I created slider_choice field in player and put it in formfields for page3.
+    - here i need to write the html code for this since i want it to be a slider
+2. ADDITIONALLY I have created a hidden field called "players_slider_choice"
+    - I write a JS code to store the choice of the player into this field so that i can access it after the game.
+#}
+
+<input type="hidden" name="players_slider_choice" id="players_slider_choice" />
+
+{#
+using Django create a slider: see https://getbootstrap.com/docs/5.0/forms/range/
+1. first i label the slider
+2. second i call an input with class="form-range", make sure to add onchange="somefunction" and define this function to execute when users make a change
+3. then when user interracts "myFunction" is called which does the following
+    a. get the users choice and store it in hischoice
+    b. save this value to the field 'player_slider_choice'
+    c. log this value to the console -> inspect element
+#}
+
+<label for="slider_choice_django" class="form-label">Example range</label>  {#1#}
+<input type="range" class="form-range" min="-10" max="10" step="0.1" id="slider_choice_django" onchange="myFunction()"> {#2.#}
+
+<script>
+function myFunction(){
+    hischoice=document.getElementById('slider_choice_django').value {#3a#}
+    document.getElementById('players_slider_choice').value=hischoice {#3b#}
+    console.log(hischoice) {#3c#}
+    document.getElementById("hischoice").innerHTML =hischoice {# edits  the p below to display his choice#}
+}
+</script>
+
+
+
+
+    {# i omit formfields #}
+    your choice is: <p id="hischoice">
+    {{formfield 'name'}} {#i have to put some field here otherwise i get errors....#}
+    {{ next_button }}
+
+
+
+{{ endblock }}

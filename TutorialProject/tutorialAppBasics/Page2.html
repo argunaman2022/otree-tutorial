@@ -1,0 +1,16 @@
+
+{{ block title }}
+    Page title
+{# comment #}
+{#
+Multiline comment
+#}
+{{ endblock }}
+{{ block content }}
+
+
+    {{formfield 'integer_choice' label=integer_choice_label}}
+    {{formfields}}
+    {{ next_button }}
+
+{{ endblock }}

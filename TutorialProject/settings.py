@@ -1,5 +1,7 @@
 from os import environ
-
+'''
+The apps that you want to show in the demo should be put in session_configs 
+'''
 
 SESSION_CONFIGS = [
     dict(
@@ -11,6 +13,12 @@ SESSION_CONFIGS = [
     dict(
         name='survey', app_sequence=['survey', 'payment_info'], num_demo_participants=1
     ),
+    dict(
+        name='tutorialAppBasics',
+        display_name="tutorialApp",
+        app_sequence=['tutorialAppBasics','payment_info'],
+        num_demo_participants=1
+    )
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
@@ -22,7 +30,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
 )
 
-PARTICIPANT_FIELDS = []
+PARTICIPANT_FIELDS = ['expiry']
 SESSION_FIELDS = []
 
 # ISO-639 code
