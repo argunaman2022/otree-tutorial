@@ -4,6 +4,20 @@
 {{ block content }}
 
     {{ formfields }}
+
+    {#a
+    chat room for groups
+    1. nickname is the nickname with which the player is shown
+    2. channel is by default group.id for each player, playes that have the same channel can chat
+        2.a default valu being group.id if instead we want thoes with the same role to chat, we set channel=player.id_in_group which ensures only playerXs can talk to each other
+        2.b channel=1 would let everyone talk to everyone
+    3. you can style the chat by butting it inside a div
+    4. multiple chats can be open for participant
+    5. chat between experimenter and participant is possible too, see: https://otree.readthedocs.io/en/latest/admin.html#experimenter-chat
+    #}
+    <div style="width:400px">
+    {{chat nickname=player.role channel='channel'}}
+    </div>
     {{ next_button }}
 
 {{ endblock }}

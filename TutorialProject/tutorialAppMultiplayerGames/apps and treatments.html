@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Otree-Apps</title>
+</head>
+<body>
+I.APPS:
+1.If you want to access a participants data from a previous app you should store it on the participant object, which persists across apps
+    1a. in settings, in PARTICIPANT_FIELDS =list to define a list of fields for the participant
+        then in the code __init__.py you can get and set any type of data on these fields participant.list=[1,2,3]
+2. Global variables that are same for all participants in the session is added to SESSION_FIELDS in settings.py
+
+
+II.TREATMENTS:
+1. to assign participants to different treatments use creating_session, this is run immediately when you press create session:
+    def creating_session(subsession):
+        import random
+        for player in subsession.get_players():
+            player.time_pressure= random.choice([True,False])
+            print('set time_pressure to', player.time_pressure)
+
+2. create_session gets executed for each round independently so a player could have different treatment in different rounds.
+    to circumvent this set the treatment on participant level not player
+        def creating_session(subsession):
+            import random
+            for player in subsession.get_players():
+                participant=player.participant
+                participant.time_pressure= random.choice([True,False])
+                print('set time_pressure to', participant.time_pressure)
+
+3. note that the code above does treatment assignment randomly, to have a balanced treatment use itertools:
+    def creating_subsession(subsession):
+        import itertools
+        pressures = itertools.cycle([True,False]) # everytime next(pressure) is called it equals true then false then true then false etc.
+        for player in subsession.get_players():
+            player.time_pressure=next(pressures)
+
+4. Choosing which treatment to play:
+    in session_config you can set the treatment to a value to ensure the treatment is always on to develop the app
+
+5. Sessions are configurable i.e. you can have multiple session configs and choose from one when creating a session; see :https://otree.readthedocs.io/en/latest/treatments.html#configure-sessions
+
+</body>
+</html>

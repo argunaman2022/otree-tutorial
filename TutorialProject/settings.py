@@ -18,7 +18,8 @@ SESSION_CONFIGS = [
         display_name="tutorialApp",
         app_sequence=['tutorialAppBasics','payment_info'],
         num_demo_participants=1
-    )
+    ),
+    dict(name='tutorialapp2', display_name='tutorialapp2', app_sequence=['tutorialAppMultiplayerGames', 'payment_info'], num_demo_participants=2)
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
