@@ -7,9 +7,43 @@
 <body>
 Use bots to test the app
 steps:
-1. add bots to the app (see below)
+1. add bots to the app (see below) by creating a tests.py file.
 2. in the session config set use_browser_bots=True
 3. run the server (devserver) and create a session, as you open the page pages will auto-play with the browser bots
-4. continue this at https://otree.readthedocs.io/en/latest/bots.html, as well as the tutorial at https://otree.readthedocs.io/en/latest/tutorial/intro.html
+
+
+tests.py: (example: https://github.com/oTree-org/oTree/blob/lite/survey/tests.py)
+1. need one yield per page submission:
+    yield pages.Start #since in start there's no fields to fill
+    yield pages.Survey, dict(name="Bob", age=20) #since in Survey page there is the name and age field only
+2. use if statements to make sure bots play proper strategies in relevant rounds and for given player.ids:
+    if self.round_number == 1: #since the introduction (empty) page is only in the round 1 we need to yield it only here
+        yield pages.Introduction
+    if self.player.id_in_group == 1: #if bot is assigned id==1 then it should yield in the offer page hif offer, otherwise he doesnt see this page
+        yield pages.Offer, dict(offer=30)
+    else:
+        yield pages.Accept, dict(offer_accepted=True)
+3. ignore waitpages when writing bots.
+4. Bot codes should be set for only one round. Otree runs this botcode (tests.py) NUM_ROUNDS amount of times. therefore use if self.round_number condition a lot
+5. use expect statements to make sure code runs as expected. For instance:
+    expect(self.player.num_apples, 100)
+    yield pages.Eat, dict(apples_eaten=1)
+    expect(self.player.num_apples, 99)
+    yield pages.SomeOtherPage
+                or
+    expect(self.player.budget, '<', 100)
+                or
+    for value in [self.player.crt_bat, self.player.payoff]:
+            expect(value, '!=', None)
+    5.a if the expected value isnt matched error is raised.
+    5.b for expect the following operators are valid: '<', '<=', '==', '>=', '>', '!=', 'in', 'not in'.
+6. if the fields have form validations (i.e. max and min numbers etc) can use SubmissionMustFail() to make sure certain submissions fail.
+    when using SubmissionMustFail(page.MyPage, dict(fields)) the bot submits this and expects an error,
+    if error isnt raised (i.e. page submission succeeds) bot raises an error. An example:
+        yield SubmissionMustFail(pages.Eat, dict(apples_eaten=abs)) #try this in our app.
+7. self.html contains the HTML of the page bot's about to submit. can combine self.html with expect('somethingsomething'. 'in', self.html) to make sure certain things are shown in the page
+8. bots dont see buttons and fields that are added dynamically with JS, they automatically check the html for such fields and buttons. to fix this use:
+    yield Submission(pages.MyPage, dict(foo=99), check_html=False) NOT  yield pages.MyPage, dict(foo=99)
+9. See MISC for advanced bots.
 </body>
 </html>
