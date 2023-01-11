@@ -1,3 +1,2 @@
-.idea/
-.idea
+# make sure to add * in .idea manually
 main.py
