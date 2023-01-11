@@ -4,22 +4,16 @@ The apps that you want to show in the demo should be put in session_configs
 '''
 
 SESSION_CONFIGS = [
-    dict(
-        name='guess_two_thirds',
-        display_name="Guess 2/3 of the Average",
-        app_sequence=['guess_two_thirds', 'payment_info'],
-        num_demo_participants=3,
-    ),
-    dict(
-        name='survey', app_sequence=['survey', 'payment_info'], num_demo_participants=1
-    ),
-    dict(
-        name='tutorialAppBasics',
-        display_name="tutorialApp",
-        app_sequence=['tutorialAppBasics','payment_info'],
-        num_demo_participants=1
-    ),
-    dict(name='tutorialapp2', display_name='tutorialapp2', app_sequence=['tutorialAppMultiplayerGames', 'payment_info'], num_demo_participants=2)
+    dict(name='guess_two_thirds',display_name="Guess 2/3 of the Average",app_sequence=['guess_two_thirds', 'payment_info'], num_demo_participants=3,),
+    dict(name='survey', display_name='survey' ,app_sequence=['survey', 'payment_info'], num_demo_participants=1),
+    dict(name='tutorialAppBasics',display_name="tutorialApp",app_sequence=['tutorialAppBasics','payment_info'],num_demo_participants=1),
+    dict(name='tutorialapp2', display_name='tutorialapp2', app_sequence=['tutorialAppMultiplayerGames', 'payment_info'], num_demo_participants=2),
+    dict(name='bargaining',display_name='bargaining',app_sequence=['bargaining','payment_info'], num_demo_participants=2),
+    dict(name='bertrand',display_name='bertrand',app_sequence=['bertrand','payment_info'], num_demo_participants=2),
+    dict(name='common_value_auction', display_name='bertrand', app_sequence=['bertrand', 'payment_info'], num_demo_participants=3),
+    dict(name='cournot', display_name='cournot', app_sequence=['cournot', 'payment_info'], num_demo_participants=2),
+    dict(name='dictator', display_name='dictator', app_sequence=['dictator', 'payment_info'], num_demo_participants=2),
+    dict(name='trust', display_name='trust', app_sequence=['trust', 'payment_info'], num_demo_participants=2)
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
