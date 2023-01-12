@@ -4,7 +4,6 @@ from otree.api import *
 doc = """
 This is a tutorial for the multiplayer games section from OtreeDocumentation
 Where necessary comments are added
-
 """
 
 

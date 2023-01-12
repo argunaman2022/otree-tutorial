@@ -24,8 +24,9 @@
 9. for customizing Otree using CSS, see selectors at: https://otree.readthedocs.io/en/latest/templates.html#customizing-the-theme
 #}
 
+
 {{ block title }}
-    Page1 is the title
+    Title of the page
 {# comment #}
 {#
 Multiline comment
@@ -33,12 +34,9 @@ Multiline comment
 {{ endblock }}
 {{ block content }}
 
-
     {#instead of {{formfields}} you can use {{formfield 'nameofthefield'}} e.g.#}
 
-    {{formfield "name" label='this label will override the other'}}
-
-    {{formfield "age" label='age'}}
+    {{formfields}}
 
     {{ next_button }}
 

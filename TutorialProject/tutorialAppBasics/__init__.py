@@ -33,9 +33,10 @@ Constants that should not be changing from player to player are stored in this i
     e.g def my_dict(subsession): return dict(a=[1,2],b=[3,4]). the subsession class will call this function to create the constant.
 """
 class C(BaseConstants):
-    NAME_IN_URL = 'tutorialAppBasics' #this is how the app is displayed on the webbrowser
+    NAME_IN_URL = 'tutorialAppBasics-change' #this is how the app is displayed on the webbrowser
     PLAYERS_PER_GROUP = None #next tutorial
     NUM_ROUNDS = 1 #next tutorial
+
 
 
 class Subsession(BaseSubsession):
@@ -53,16 +54,16 @@ class Player(BasePlayer):
     Another use would be to store hidden variables on the player level.
     """
     # these two will be called in page 1
-    name=models.StringField(label="Your name:") #this is the name field of the player module. we can use this in the page Class see below the choice page
+    name=models.StringField(label="Your name is:") #this is the name field of the player module. we can use this in the page Class see below the choice page
     age=models.IntegerField(label="Your age:")
 
     # i will call these in page 2
     integer_choice=models.IntegerField(min=12,max=24)
     integer_choice_dropdown=models.IntegerField(choices=[1,2,3,4]) #dropdown menu
     integer_choice_radiobuttons1 = models.IntegerField(choices=[1, 2, 3, 4], widget=widgets.RadioSelect)
-    integer_choice_radiobuttons2 = models.IntegerField(choices=[1, 2, 3, 4], widget=widgets.RadioSelect)
+    integer_choice_radiobuttons2 = models.IntegerField(choices=[1, 2, 3, 4], widget=widgets.RadioSelectHorizontal )
     integer_choice_level=models.IntegerField(choices=[
-        [1,'1-low'],[2,'2-mediumlow'],[3,'medium etc.']    ]) #uses ony see the labels not 1,2,3
+        [1,'low'],[2,'mediumlow'],[3,'medium etc.']    ]) #uses ony see the labels not 1,2,3
     cooperated =models.BooleanField(label="would you liketo cooperate", choices=[[False,'Defect'],[True,'Cooperate']]) #a useful example
     #to get the human readable label of this users choice use player.field_display('cooperated') since player.cooperated returns boolean
     optional_choice=models.IntegerField(blank=True) #this makes this choice optional
@@ -71,7 +72,7 @@ class Player(BasePlayer):
     #dynamic  form field validation when you need the forms to depend on player attributes
     # i call these in page 3
     #the following field's min,max,choices will depend on the player attributes, i will define functions below this class that determines them
-    dynamic_choice1=models.IntegerField()
+    dynamic_choice1= models.IntegerField()
     dynamic_choice2 = models.IntegerField()
 
 
@@ -96,9 +97,9 @@ def dynamic_choice1_choices(player):
 #dynamic alternative to setting max (min is omitted)
 def dynamic_choice2_max(player):
     'this function sets the max choice to be the players budget for all players except for the first player, for him its min(budget,100)'
-    value=player.budget
+    value=player.id_in_group+100
     if player.id_in_group == 1:
-        value=min(100,player.budget)
+        value=min(100,value)
     return value
 
 # set up an error message if the player is trying to give in a value that is not accepted (e.g. for instance if they exceed the budget)
@@ -207,6 +208,7 @@ class Page1(Page):
     # here we're calling which fields should be displayed on the page when we use {{formfields}} template.
     form_fields =['name','age']   #==player.name, player.age
 
+
 class Page2(Page):
     form_model='player'
     form_fields=['integer_choice','integer_choice_dropdown','integer_choice_radiobuttons1','integer_choice_radiobuttons2','integer_choice_level','cooperated','optional_choice']
@@ -228,7 +230,7 @@ class Page2(Page):
 
 class Page3(Page):
     form_model = 'player'
-    form_fields=['players_slider_choice','name']
+    form_fields=['players_slider_choice']
 class ResultsWaitPage(WaitPage):
     pass
 
@@ -237,4 +239,4 @@ class Results(Page):
     pass
 
 
-page_sequence = [Page3, Page1,Page2,MyPage, ResultsWaitPage, Results]
+page_sequence = [Page3,Page2,Page1,ResultsWaitPage, Results]

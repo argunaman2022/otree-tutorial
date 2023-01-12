@@ -1,5 +1,5 @@
 {{ block title }}
-    Page title - slider
+    Slider page - title
 {# comment #}
 
 {{ endblock }}
@@ -10,6 +10,7 @@
     - here i need to write the html code for this since i want it to be a slider
 2. ADDITIONALLY I have created a hidden field called "players_slider_choice"
     - I write a JS code to store the choice of the player into this field so that i can access it after the game.
+3. note that initially the description is hidden to avoid any anchoring
 #}
 
 <input type="hidden" name="players_slider_choice" id="players_slider_choice" />
@@ -24,15 +25,26 @@ using Django create a slider: see https://getbootstrap.com/docs/5.0/forms/range/
     c. log this value to the console -> inspect element
 #}
 
-<label for="slider_choice_django" class="form-label">Example range</label>  {#1#}
-<input type="range" class="form-range" min="-10" max="10" step="0.1" id="slider_choice_django" onchange="myFunction()"> {#2.#}
+<label for="slider_choice_django" class="form-label">How many more questions, do you think, men answered compared to women?</label>  {#1#}
+<input type="range" class="form-range" min="-10" max="10" step="0.1" id="slider_choice_django" oninput="myFunction()"> {#2.#}
 
 <script>
 function myFunction(){
+    let description=document.getElementById('description')
     hischoice=document.getElementById('slider_choice_django').value {#3a#}
     document.getElementById('players_slider_choice').value=hischoice {#3b#}
     console.log(hischoice) {#3c#}
-    document.getElementById("hischoice").innerHTML =hischoice {# edits  the p below to display his choice#}
+
+    if(hischoice>0){
+    //document.getElementById("hischoice").innerHTML ='I think (or bet?), on average, ' + 'men'.bold() +' correctly answered ' + hischoice.toString().bold() + ' more questions than'+' women.'.bold()
+    document.getElementById("hischoice").innerHTML = 'ERROR, WRONG ANSWER,SEXIST PIG'.bold()
+    }
+    else{
+    document.getElementById("hischoice").innerHTML ='I think, on average, ' + 'women'.bold() +' correctly answered ' + (-hischoice).toString().bold() + ' more questions than'+' men.'.bold()
+    }
+
+
+    document.getElementById("id_players_slider_choice").value=hischoice
 }
 </script>
 
@@ -40,8 +52,10 @@ function myFunction(){
 
 
     {# i omit formfields #}
-    your choice is: <p id="hischoice">
-    {{formfield 'name'}} {#i have to put some field here otherwise i get errors....#}
+    <p id="hischoice"></p>
+
+    <div style="display:none">{{formfields}}</div>
+
     {{ next_button }}
 
 
